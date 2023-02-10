@@ -10,6 +10,8 @@ app.use(express.json());
 //ROUTES
 
 app.use("/home", require("./routes/dashboard"));
+app.use("/course", require("./routes/course"));
+app.use("/instructor", require("./routes/instructor"));
 app.use("/auth", require("./routes/jwtAuth"));
 
 app.listen(6000, () => {
