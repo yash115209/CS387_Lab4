@@ -1,3 +1,5 @@
+create database lab4final;
+
 create table classroom
     (building        varchar(15),
      room_number        varchar(7),
@@ -122,5 +124,18 @@ create table reg_dates(
 
 create table user_password
     (ID            varchar(5),
-     hashed_password    varchar(80)
+     hashed_password    varchar(80) 
     );
+
+create table web_user
+    (username            varchar(32),
+     hashed_password    varchar(80),
+     student_id            varchar(5),
+     instructor_id            varchar(5),
+     primary key (username),
+     foreign key (student_id) references student (ID)
+         on delete cascade,
+     foreign key (instructor_id) references instructor (ID)
+         on delete cascade
+     );
+

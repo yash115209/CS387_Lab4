@@ -7,7 +7,7 @@ const authorize = require("../middleware/authorize");
 //registering
 
 router.post("/register", validInfo, async(req, res) => {
-    try{
+    try{ 
         //1. destructure the req.body
         const {id, password} = req.body;
         //2. check if user exists

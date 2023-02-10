@@ -9,7 +9,7 @@ app.use(express.json());
 
 //ROUTES
 
-app.use("/dashboard", require("./routes/dashboard"));
+app.use("/home", require("./routes/dashboard"));
 app.use("/auth", require("./routes/jwtAuth"));
 
 app.listen(6000, () => {
