@@ -55,7 +55,6 @@ router.get("/registration", authorize, async (req, res) => {
   }
 })
 
-
 //incomplete
 
 router.post("/registration/register", authorize, async (req, res) => {
