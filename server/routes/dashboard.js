@@ -44,8 +44,19 @@ router.post("/drop", authorize, async (req, res) => {
 router.get("/registration", authorize, async (req, res) => {
   try {
 
+    reg_dates = await pool.query(
+      "SELECT year, semester FROM reg_dates WHERE end_time <= CURRENT_TIMESTAMP::timestamp ORDER BY end_time DESC;"
+    );
+
+    // current_year = reg_dates.rows[0]["year"]
+    // current_sem = reg_dates.rows[0]["semster"]
+
+    current_year = "2010"
+    current_sem = "Spring"
+
     courses = await pool.query(
-      "SELECT course.course_id, title, dept_name, credits, sec_id FROM course, section WHERE course.course_id = section.course_id ORDER BY course.course_id;"
+      "SELECT course.course_id, title, dept_name, credits, sec_id FROM course, section WHERE course.course_id = section.course_id AND section.year = $1 AND section.semester = $2 ORDER BY course.course_id;",
+      [current_year, current_sem]
     );
     res.json(courses.rows)
 
@@ -54,14 +65,23 @@ router.get("/registration", authorize, async (req, res) => {
     res.status(500).send("Server error");
   }
 })
-
-//incomplete
 
 router.post("/registration/register", authorize, async (req, res) => {
   try {
 
+    reg_dates = await pool.query(
+      "SELECT year, semester FROM reg_dates WHERE end_time <= CURRENT_TIMESTAMP::timestamp ORDER BY end_time DESC;"
+    );
+
+    // current_year = reg_dates.rows[0]["year"]
+    // current_sem = reg_dates.rows[0]["semster"]
+
+    current_year = "2010"
+    current_sem = "Spring"
+
     courses = await pool.query(
-      "INSERT INTO takes (ID, course_id, sec_id, semester, year, grade) VALUES ($1, $2, $3, $4, ) RETURNING *;"
+      "INSERT INTO takes (ID, course_id, sec_id, semester, year, grade) VALUES ($1, $2, $3, $4, $5, NULL) RETURNING *;",
+      [req.user, req.body.course_id, req.body.sec_id, current_sem, current_year]
     );
     res.json(courses.rows)
 
@@ -69,6 +89,6 @@ router.post("/registration/register", authorize, async (req, res) => {
     console.error(err.message);
     res.status(500).send("Server error");
   }
-})
+});
 
 module.exports = router;
