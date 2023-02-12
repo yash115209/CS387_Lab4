@@ -31,7 +31,10 @@ app.use(
 )
 //middleware
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 app.use(express.json());
 
 //ROUTES
@@ -41,6 +44,6 @@ app.use("/course", require("./routes/course"));
 app.use("/instructor", require("./routes/instructor"));
 app.use("/auth", require("./routes/jwtAuth"));
 
-app.listen(6000, () => {
-    console.log("server is running on port 6000");
+app.listen(3001, () => {
+    console.log("server is running on port 3001");
 })
