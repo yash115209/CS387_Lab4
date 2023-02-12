@@ -1,61 +1,32 @@
 import React, { Fragment, useState, useEffect } from "react";
 import {BrowserRouter as Router, Routes, Navigate, Outlet, Route} from 'react-router-dom';
 import Login from './routes/Login';
-import Dashboard from './routes/Dashboard';
+import Course from './routes/Course';
+import CourseID from './routes/CourseID'
+import Instructor from './routes/Instructor';
+import RunningCourses from './routes/RunningCourses'
+import DeptNameCourse from './routes/DeptNameCourse'
+import { CoursesContextProvider } from './context/CoursesContext';
 import Sashboard from './routes/Sashboard';
-import { useSelector } from 'react-redux'
-
-// const PrivateRoutes = () => {
-//   const { isAuth } = useSelector((state) => state.auth)
-
-//   return <>{isAuth ? <Outlet /> : <Navigate to='/login/' />}</>
-// }
-
-// const RestrictedRoutes = () => {
-//   const { isAuth } = useSelector((state) => state.auth)
-
-//   return <>{!isAuth ? <Outlet /> : <Navigate to='/home/' />}</>
-// }
 
 const App = () => {
-    // const checkAuthenticated = async () => {
-    //     try {
-    //       const res = await fetch("http://localhost:3001/authentication/verify", {
-    //         method: "POST",
-    //         headers: { jwt_token: localStorage.token }
-    //       });
-    
-    //       const parseRes = await res.json();
-    
-    //       parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
-    //     } catch (err) {
-    //       console.error(err.message);
-    //     }
-    //   };
-    
-    //   useEffect(() => {
-    //     checkAuthenticated();
-    //   }, []);
-    
-    //   const [isAuthenticated, setIsAuthenticated] = useState(false);
-    
-    //   const setAuth = boolean => {
-    //     setIsAuthenticated(boolean);
-    //   };
-    return(
-        <Fragment>
+    return( 
         <div>
+        <CoursesContextProvider>
         <Router>
             <Routes>
-                <Route exact path="/sdashboard" element = {<Dashboard/>}/>
                 <Route exact path="/dashboard" element = {<Sashboard/>}/>
-                {/* <Route path='/register' element={<Register />} /> */}
                 <Route path='/login' element={<Login />} />
-            </Routes>  
+                <Route exact path="/course" element={<Course/>}/>
+                <Route exact path="/course/:id" element={<CourseID/>}/>
+                <Route exact path="/course/running" element={<RunningCourses/>}/>
+                <Route exact path="/course/running/:dept_name" element={<DeptNameCourse/>}/>
+                <Route exact path="/instructor" element={<Instructor/>}/>
+            </Routes>
         </Router>
-        </div>
-        </Fragment>
-    );
+        </CoursesContextProvider>
+    </div>
+    )
 }
 
-export default App;
+export default App; 
