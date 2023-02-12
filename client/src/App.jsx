@@ -5,11 +5,10 @@ import CourseID from './routes/CourseID'
 import Instructor from './routes/Instructor';
 import RunningCourses from './routes/RunningCourses'
 import DeptNameCourse from './routes/DeptNameCourse'
-import { CoursesContextProvider } from './context/CoursesContext';
+import InstructorInfo from './routes/InstructorInfo'
 
 const App = () => {
-    return <div>
-        <CoursesContextProvider>
+    return (<div>
         <Router>
             <Routes>
                 <Route exact path="/course" element={<Course/>}/>
@@ -17,10 +16,10 @@ const App = () => {
                 <Route exact path="/course/running" element={<RunningCourses/>}/>
                 <Route exact path="/course/running/:dept_name" element={<DeptNameCourse/>}/>
                 <Route exact path="/instructor" element={<Instructor/>}/>
+                <Route exact path="/instructor/:id" element={<InstructorInfo/>}/>
             </Routes>
         </Router>
-        </CoursesContextProvider>
-    </div>
+    </div>)
 }
 
 export default App; 
