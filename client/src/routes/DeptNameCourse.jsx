@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React from 'react'
 import { useState,  useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-export default function Course() { 
-    const [courses, setCourses] = useState([])
+export default function DeptNameCourse() { 
+    const [courses, setCourses] = useState([]);
+    const {dept_name} = useParams();
     useEffect(() => {
         async function fetchCourses() {
-            await fetch("http://localhost:3001/course")
+            await fetch(`http://localhost:3001/course/running/${dept_name}`)
             .then((res) => {
                 const output = res.json()
                 // console.log(output);
@@ -32,7 +34,7 @@ export default function Course() {
         <br />
         <br />
 
-      <h1><center>Courses</center></h1>
+      <h1><center>Courses of {dept_name}</center></h1>
       <br />
       <br />
       <br />

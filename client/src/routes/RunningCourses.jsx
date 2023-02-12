@@ -2,11 +2,11 @@ import axios from 'axios';
 import React from 'react'
 import { useState,  useEffect } from 'react';
 
-export default function Course() { 
+export default function RunningCourses() { 
     const [courses, setCourses] = useState([])
     useEffect(() => {
         async function fetchCourses() {
-            await fetch("http://localhost:3001/course")
+            await fetch("http://localhost:3001/course/running")
             .then((res) => {
                 const output = res.json()
                 // console.log(output);
@@ -25,6 +25,14 @@ export default function Course() {
         fetchCourses();
     }, [courses]);
 
+    if(courses.length == 0){
+        return (
+            <div className='container'>
+              <h2>Loading</h2>
+            </div>
+          )
+    }
+
   return (
     <div>
     <div className='container'>
@@ -32,27 +40,21 @@ export default function Course() {
         <br />
         <br />
 
-      <h1><center>Courses</center></h1>
+      <h1><center>Running Courses</center></h1>
       <br />
       <br />
       <br />
-      <table className="table table-hover">
+    <table className="table table-hover">
   <thead className="thead-dark">
     <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Title</th>
       <th scope="col">Department</th>
-      <th scope="col">Credits</th> 
     </tr>
   </thead>
   <tbody>
-    {courses.map((course) => {
+    {courses.dept_names.map((item) => {
         return (
             <tr>
-            <th scope="row">{course.course_id}</th>
-            <td>{course.title}</td>
-            <td>{course.dept_name}</td>
-            <td>{course.credits}</td>
+            <th scope="row">{item}</th>
             </tr>
         )
     })}
