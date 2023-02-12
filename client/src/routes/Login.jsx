@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Link, Redirect, useNavigate } from "react-router-dom";
 
 import { toast } from "react-toastify";
-import Dashboard from "./Dashboard";
 
 
 const Login = () => {
@@ -10,6 +9,7 @@ const Login = () => {
     const navigate = useNavigate();
   console.log("sashboard");
   useEffect(() => {
+    console.log("inlogin");
     // check if user is authenticated, you can replace this with a real authentication logic
     const checkAuth = async () => {
       // for demo purposes, setting isAuth to false

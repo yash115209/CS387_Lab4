@@ -2,19 +2,17 @@ import React, { Fragment, useState, useEffect } from "react";
 import {BrowserRouter as Router, Routes, Navigate, Outlet, Route} from 'react-router-dom';
 import Login from './routes/Login';
 import Course from './routes/Course';
-import CourseID from './routes/CourseID'
+import CourseID from './routes/CourseID';
 import Instructor from './routes/Instructor';
 import RunningCourses from './routes/RunningCourses'
 import DeptNameCourse from './routes/DeptNameCourse'
-import { CoursesContextProvider } from './context/CoursesContext';
 import Sashboard from './routes/Sashboard';
 
 const App = () => {
-    return( 
-        <div>
-        <CoursesContextProvider>
+    return(
         <Router>
             <Routes>
+                <Route exact path='/' element = {<Login/>}/>
                 <Route exact path="/dashboard" element = {<Sashboard/>}/>
                 <Route path='/login' element={<Login />} />
                 <Route exact path="/course" element={<Course/>}/>
@@ -24,8 +22,6 @@ const App = () => {
                 <Route exact path="/instructor" element={<Instructor/>}/>
             </Routes>
         </Router>
-        </CoursesContextProvider>
-    </div>
     )
 }
 

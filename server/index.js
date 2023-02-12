@@ -11,7 +11,6 @@ app.use(cookieParser());
 app.use(express.json());
 
 const pgSession = (require('connect-pg-simple')(session));
-
 app.use(
     session({
         store: new pgSession({
