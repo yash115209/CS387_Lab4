@@ -6,10 +6,11 @@ import CourseID from './routes/CourseID';
 import Instructor from './routes/Instructor';
 import RunningCourses from './routes/RunningCourses'
 import DeptNameCourse from './routes/DeptNameCourse'
+import InstructorInfo from './routes/InstructorInfo'
 import Sashboard from './routes/Sashboard';
 
 const App = () => {
-    return(
+    return (<div>
         <Router>
             <Routes>
                 <Route exact path='/' element = {<Login/>}/>
@@ -20,9 +21,10 @@ const App = () => {
                 <Route exact path="/course/running" element={<RunningCourses/>}/>
                 <Route exact path="/course/running/:dept_name" element={<DeptNameCourse/>}/>
                 <Route exact path="/instructor" element={<Instructor/>}/>
+                <Route exact path="/instructor/:id" element={<InstructorInfo/>}/>
             </Routes>
         </Router>
-    )
+    </div>)
 }
 
 export default App; 
