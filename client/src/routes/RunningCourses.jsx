@@ -1,11 +1,34 @@
-import React from 'react'
+import React from 'react';
 import { useState,  useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 export default function RunningCourses() { 
+  const navigate = useNavigate();
     const [courses, setCourses] = useState([])
     useEffect(() => {
+      const checkAuth = async () => {
+        // for demo purposes, setting isAuth to false
+        try {
+          const response = await fetch(
+            "http://localhost:3001/auth/verify",
+            {
+              credentials: 'include'
+            }
+          );
+          const parseReq = response.json();
+          const parseStatus = response.status;
+          if(parseStatus !== 200){
+            navigate("/login");
+          } else {
+            console.log("good to go");
+          }
+    } catch(err){
+      console.error(err.message);
+    }}
         async function fetchCourses() {
-            await fetch("http://localhost:3001/course/running")
+            await fetch("http://localhost:3001/course/running",{
+              credentials:'include'
+            })
             .then((res) => {
                 const output = res.json()
                 // console.log(output);
@@ -20,7 +43,7 @@ export default function RunningCourses() {
                 console.log(err);
             })
         }
-        
+        checkAuth();
         fetchCourses();
     }, [courses]);
 

@@ -1,13 +1,36 @@
 import React from 'react';
 import { useState,  useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function DeptNameCourse() { 
+  const navigate = useNavigate();
     const [courses, setCourses] = useState([]);
     const {dept_name} = useParams();
     useEffect(() => {
+      const checkAuth = async () => {
+        // for demo purposes, setting isAuth to false
+        try {
+          const response = await fetch(
+            "http://localhost:3001/auth/verify",
+            {
+              credentials: 'include'
+            }
+          );
+          const parseReq = response.json();
+          const parseStatus = response.status;
+          if(parseStatus !== 200){
+            navigate("/login");
+          } else {
+            console.log("good to go");
+          }
+          console.log(parseReq, "yoyo");
+    } catch(err){
+      console.error(err.message);
+    }}
         async function fetchCourses() {
-            await fetch(`http://localhost:3001/course/running/${dept_name}`)
+            await fetch(`http://localhost:3001/course/running/${dept_name}`,{
+              credentials:'include'
+            })
             .then((res) => {
                 const output = res.json()
                 // console.log(output);
@@ -22,7 +45,7 @@ export default function DeptNameCourse() {
                 console.log(err);
             })
         }
-        
+        checkAuth();
         fetchCourses();
     }, [courses]);
 

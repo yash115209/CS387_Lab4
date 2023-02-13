@@ -7,6 +7,7 @@ import Instructor from './routes/Instructor';
 import RunningCourses from './routes/RunningCourses'
 import DeptNameCourse from './routes/DeptNameCourse'
 import Sashboard from './routes/Sashboard';
+import SearchBar from "./routes/searchBar";
 
 const App = () => {
     return(
@@ -20,6 +21,7 @@ const App = () => {
                 <Route exact path="/course/running" element={<RunningCourses/>}/>
                 <Route exact path="/course/running/:dept_name" element={<DeptNameCourse/>}/>
                 <Route exact path="/instructor" element={<Instructor/>}/>
+                <Route exact path="/home/registration" element={<SearchBar/>}/>
             </Routes>
         </Router>
     )
