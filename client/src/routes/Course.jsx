@@ -1,12 +1,36 @@
 import React from 'react'
 import { useState,  useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navb from './Navb';
 
 export default function Course() { 
+  const navigate = useNavigate();
     const [courses, setCourses] = useState([])
     useEffect(() => {
+      const checkAuth = async () => {
+        // for demo purposes, setting isAuth to false
+        try {
+          const response = await fetch(
+            "http://localhost:3001/auth/verify",
+            {
+              credentials: 'include'
+            }
+          );
+          const parseReq = response.json();
+          const parseStatus = response.status;
+          if(parseStatus !== 200){
+            navigate("/login");
+          } else {
+            console.log("Dashboard go");
+          }
+          console.log(parseReq, "yoyo");
+    } catch(err){
+      console.error(err.message);
+    }}
         async function fetchCourses() {
-            await fetch("http://localhost:3001/course")
+            await fetch("http://localhost:3001/course", {
+              credentials: 'include'
+            })
             .then((res) => {
                 const output = res.json()
                 // console.log(output);
@@ -21,7 +45,7 @@ export default function Course() {
                 console.log(err);
             })
         }
-        
+        checkAuth();
         fetchCourses();
     }, [courses]);
 

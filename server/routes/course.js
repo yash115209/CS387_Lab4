@@ -3,7 +3,7 @@ const authorize = require("../middleware/authorize");
 const pool = require("../db");
 
 
-router.get("/", async (req, res) => {
+router.get("/", authorize, async (req, res) => {
     try {
   
       courses = await pool.query(
@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
   });
 
 
-router.get("/running", async (req, res) => {
+router.get("/running", authorize, async (req, res) => {
     try {
 
       reg_dates = await pool.query(
@@ -55,7 +55,7 @@ router.get("/running", async (req, res) => {
   });
 
 
-  router.get("/running/:dept_name", async (req, res) => {
+  router.get("/running/:dept_name", authorize, async (req, res) => {
     try {
 
       dept_name = req.params.dept_name;
@@ -86,7 +86,7 @@ router.get("/running", async (req, res) => {
   });
 
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", authorize, async (req, res) => {
     try {
 
       course_id = req.params.id;
