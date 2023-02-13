@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { useState,  useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import Navb from './Navb';
 
 export default function InstructorInfo() { 
     const [instructor_info, setInstructorInfo] = useState([]);
@@ -37,6 +38,8 @@ if(instructor_info.length == 0){
 }
 
   return (
+    <div>
+      <Navb />
     <div className='container'>
         <br />
         <br />
@@ -112,7 +115,7 @@ if(instructor_info.length == 0){
 <br />
 <br />
 <br />
-      
+</div>
     </div>
   )
 }

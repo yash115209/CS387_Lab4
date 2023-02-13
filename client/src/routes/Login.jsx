@@ -24,7 +24,7 @@ const Login = () => {
         const parseStatus = response.status;
         if(parseStatus == 200){
           console.log("Dashboard go");
-          navigate("/dashboard");
+          navigate("/home");
         }
         console.log(parseReq, "yoyo");
   } catch(err){
@@ -69,7 +69,7 @@ const Login = () => {
             if (parseRes.user.id) {
               toast.success("Logged in Successfully");
               console.log("YO WE LOG IN");
-              navigate("/dashboard");
+              navigate("/home");
             } else {
               console.log("NO");
               toast.error(parseRes);
@@ -84,6 +84,7 @@ const Login = () => {
         //if already logged in, 
     return (
         <Fragment>
+          <div className="container">
           <h1 className="mt-5 text-center">Logins</h1>
           <form onSubmit={onSubmitForm}>
             <input
@@ -102,6 +103,7 @@ const Login = () => {
             />
             <button class="btn btn-success btn-block">Submit</button>
           </form>
+          </div>
         </Fragment>
     );
 };

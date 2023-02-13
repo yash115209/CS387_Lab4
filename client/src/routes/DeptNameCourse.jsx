@@ -1,8 +1,10 @@
 import React from 'react';
 import { useState,  useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import Navb from './Navb';
 
 export default function DeptNameCourse() { 
+    const navigate = useNavigate();
     const [courses, setCourses] = useState([]);
     const {dept_name} = useParams();
     useEffect(() => {
@@ -25,9 +27,13 @@ export default function DeptNameCourse() {
         
         fetchCourses();
     }, [courses]);
-
+    const handleClick = (id) => {
+      navigate(`/course/${id}`);
+      window.location.reload();
+    }
   return (
     <div>
+      <Navb />
     <div className='container'>
         <br />
         <br />
@@ -51,7 +57,7 @@ export default function DeptNameCourse() {
         return (
             <tr>
             <th scope="row">{course.course_id}</th>
-            <td>{course.title}</td>
+            <td><button onClick={() => handleClick(course.course_id)}>{course.title}</button></td>
             <td>{course.dept_name}</td>
             <td>{course.credits}</td>
             </tr>

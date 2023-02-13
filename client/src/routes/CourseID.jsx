@@ -1,8 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { useState,  useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, Route } from 'react-router-dom';
+import Navb from './Navb';
 
 export default function CourseID() { 
+    const navigate = useNavigate();
     const [course_info, setCoursesInfo] = useState([]);
     const { id } = useParams();
     useEffect(() => {
@@ -25,7 +27,14 @@ export default function CourseID() {
         
         fetchCourseInfo();
     }, [course_info]);
-
+  const handleClick = (id) => {
+    navigate(`/course/${id}`);
+    window.location.reload();
+  }
+  const handleClickTeach = (id) => {
+    navigate(`/instructor/${id}`);
+    window.location.reload();
+  }
 
 if(course_info.length == 0){
     return (
@@ -44,6 +53,8 @@ if(course_info.length == 0){
 }
 
   return (
+    <div>
+      <Navb />
     <div className='container'>
         <br />
         <br />
@@ -72,7 +83,7 @@ if(course_info.length == 0){
         return (
             <tr>
             <th scope="row">{item.course_id}</th>
-            <td>{item.title}</td>
+            <td><button onClick={() => handleClick(item.course_id)}>{item.title}</button></td>
             </tr>
         )
     })}
@@ -99,7 +110,7 @@ if(course_info.length == 0){
         return (
             <tr>
             <th scope="row">{item.id}</th>
-            <td>{item.name}</td>
+            <td><button onClick={() => handleClickTeach(item.id)}>{item.name}</button></td>
             </tr>
         )
     })}
@@ -108,6 +119,7 @@ if(course_info.length == 0){
 
 
       
+    </div>
     </div>
   )
 }

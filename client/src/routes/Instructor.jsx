@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState,  useEffect } from 'react';
+import Navb from './Navb';
 
 export default function Instructor() { 
     const [instructors, setInstructors] = useState([])
@@ -26,6 +27,7 @@ export default function Instructor() {
 
   return (
     <div>
+      <Navb />
     <div className='container'>
         <br />
         <br />

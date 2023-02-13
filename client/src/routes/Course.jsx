@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState,  useEffect } from 'react';
+import Navb from './Navb';
 
 export default function Course() { 
     const [courses, setCourses] = useState([])
@@ -26,6 +27,7 @@ export default function Course() {
 
   return (
     <div>
+      <Navb />
     <div className='container'>
         <br />
         <br />

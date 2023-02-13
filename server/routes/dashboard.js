@@ -6,15 +6,49 @@ router.get("/", authorize, async (req, res) => {
   try {
     const user = await pool.query(
       "SELECT * FROM user_password, student WHERE user_password.ID = $1 AND student.ID = user_password.ID;",
-      [req.user] 
+      [req.session.user.id] 
     ); 
     const courses = await pool.query(
-      "SELECT * FROM user_password, takes WHERE user_password.ID = $1 AND takes.ID = user_password.ID ORDER BY year DESC, semester DESC;", 
-      [req.user]
+      "SELECT course.course_id, course.title, course.dept_name, course.credits, takes.year, takes.semester FROM user_password, takes, course WHERE takes.course_id = course.course_id AND user_password.ID = $1 AND takes.ID = user_password.ID ORDER BY year DESC, semester DESC;", 
+      [req.session.user.id]
     )
+
+    reg_dates = await pool.query(
+      "SELECT year, semester FROM reg_dates WHERE end_time <= CURRENT_TIMESTAMP::timestamp ORDER BY end_time DESC;"
+    );
+
+    // current_year = reg_dates.rows[0]["year"]
+    // current_sem = reg_dates.rows[0]["semster"]
+
+    current_year = "2010"
+    current_sem = "Spring"
+
+    const current_courses = await pool.query(
+      "SELECT course.course_id, course.title, course.dept_name, course.credits, takes.year, takes.semester FROM user_password, takes, course WHERE takes.course_id = course.course_id AND user_password.ID = $1 AND takes.ID = user_password.ID AND takes.year = $2 AND takes.semester = $3 ORDER BY year DESC, semester DESC;", 
+      [req.session.user.id, current_year, current_sem]
+    )
+
+    const year_sem = await pool.query(
+      "SELECT DISTINCT year, semester FROM user_password, takes WHERE user_password.ID = $1 AND takes.ID = user_password.ID ORDER BY year DESC, semester DESC;",
+      [req.session.user.id]
+    )
+
+    var courses_sorted = [];
+    
+    for (let i = 0; i < year_sem.rows.length; i++){
+      courses_sorted.push([]);
+      for (let j = 0; j < courses.rows.length; j++){
+        if (courses.rows[j].year == year_sem.rows[i].year && courses.rows[j].semester == year_sem.rows[i].semester){
+          courses_sorted[i].push(courses.rows[j]);
+        }
+      }
+    }
+
+
     const output_json = {
       "user": user.rows,
-      "courses": courses.rows
+      "courses": courses_sorted,
+      "current_courses": current_courses.rows
     }
     res.json(output_json);
   } catch (err) {
@@ -23,17 +57,17 @@ router.get("/", authorize, async (req, res) => {
   }
 });
 
-router.post("/drop", authorize, async (req, res) => {
+router.delete("/", authorize, async (req, res) => {
   try {
-
+    console.log("going to delete");
     await pool.query(
       "DELETE FROM takes WHERE course_id = $1 AND year = $2 AND semester = $3;", 
       [req.body.course_id, req.body.year, req.body.semester]
     );
 
-    console.log(req)
+    console.log(req.semester, "delete");
 
-    res.json("deleted")
+    return res.json("deleted");
 
   } catch (err) {
     console.error(err.message);
