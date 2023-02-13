@@ -1,6 +1,8 @@
 import React from 'react'
 import { useState,  useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Navb from './Navb';
+
 export default function Course() { 
   const navigate = useNavigate();
     const [courses, setCourses] = useState([])
@@ -49,6 +51,7 @@ export default function Course() {
 
   return (
     <div>
+      <Navb />
     <div className='container'>
         <br />
         <br />

@@ -3,7 +3,7 @@ const authorize = require("../middleware/authorize");
 const pool = require("../db");
 
 
-router.get("/", authorize, async (req, res) => {
+router.get("/", async (req, res) => {
     try {
   
       instructors = await pool.query(
@@ -19,7 +19,7 @@ router.get("/", authorize, async (req, res) => {
   });
 
 
-router.get("/:id", authorize, async (req, res) => {
+router.get("/:id", async (req, res) => {
     try {
   
 
@@ -46,8 +46,8 @@ router.get("/:id", authorize, async (req, res) => {
       )
       
       previous_courses = await pool.query(
-        "SELECT teaches.course_id, course.title, year, semester FROM teaches, course WHERE teaches.course_id = course.course_id AND teaches.id = $1 ORDER BY year DESC, semester DESC;",
-        [id]
+        "SELECT teaches.course_id, course.title, year, semester FROM teaches, course WHERE teaches.course_id = course.course_id AND teaches.id = $1 AND ((year, semester) NOT IN (SELECT DISTINCT year, semester FROM teaches WHERE year = $2 AND semester = $3)) ORDER BY year DESC, semester DESC;",
+        [id, current_year, current_sem]
       )
 
       output_json = {

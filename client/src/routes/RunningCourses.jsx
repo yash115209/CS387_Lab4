@@ -1,9 +1,12 @@
 import React from 'react';
 import { useState,  useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate } from 'react-router-dom';
+import Navb from './Navb';
 
 export default function RunningCourses() { 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+
     const [courses, setCourses] = useState([])
     useEffect(() => {
       const checkAuth = async () => {
@@ -55,8 +58,14 @@ export default function RunningCourses() {
           )
     }
 
+    const handleClick = (dept_name) => {
+      navigate(`${dept_name}`);
+      window.location.reload();
+    }
+
   return (
     <div>
+      <Navb />
     <div className='container'>
         <br />
         <br />
@@ -76,7 +85,7 @@ export default function RunningCourses() {
     {courses.dept_names.map((item) => {
         return (
             <tr>
-            <th scope="row">{item}</th>
+            <td><button onClick={() => handleClick(item)}>{item}</button></td>
             </tr>
         )
     })}
